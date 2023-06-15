@@ -1,32 +1,17 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import { Pie, PieChart, Cell} from 'recharts';
-
+import { GlobalContext } from '../context/GlobalState';
 
 const Graph = () => {
-   const data = [
-        {
-            "name": "income",
-            "value": 1000
-        },
-        {
-            "name": "expense",
-            "value": 450
-        }
-       
-    ]
-    const colors = ["#C1E1C1", "#FAA0A0"]
+    const {transactions} = useContext(GlobalContext);
+    const data = transactions.map(transactions =>transactions.amount = transactions.amount < 0 ? Math.abs(transactions.amount): transactions.amount)
   return (
     <div>
        <h6>Chart</h6>
-       <PieChart width={800} height={250}>
-            <Pie data={data} cx="50%" cy="50%" outerRadius={100} label>
-                {
-                data.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={colors[index]} />
-                ))
-                }
-            </Pie>
-        </PieChart>
+       {
+        <PieChart width={730} height={250}>
+            <Pie data={transactions} dataKey="amount" nameKey="text" cx="50%" cy="50%" outerRadius={100} fill="#8884d8" label />
+        </PieChart>}
     </div>
   )
 }
